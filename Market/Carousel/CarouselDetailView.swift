@@ -24,7 +24,7 @@ struct CarouselDetailView: View {
                             )
                     } placeholder: {
                         RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 260, height: 305)
+                            .frame(maxWidth: 260, maxHeight: 305)
                             .foregroundColor(.chevron)
                     }
                 }
