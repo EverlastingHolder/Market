@@ -16,7 +16,7 @@ struct CarouselDetailView: View {
                         image
                             .resizable()
                             .cornerRadius(10)
-                            .frame(maxWidth: 200, maxHeight: 300)
+                            .frame(width: 200, height: 305)
                             .background(
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(width: 260, height: 305)
@@ -24,7 +24,7 @@ struct CarouselDetailView: View {
                             )
                     } placeholder: {
                         RoundedRectangle(cornerRadius: 10)
-                            .frame(maxWidth: 260, maxHeight: 305)
+                            .frame(width: 260, height: 305)
                             .foregroundColor(.chevron)
                     }
                 }

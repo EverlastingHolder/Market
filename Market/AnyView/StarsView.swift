@@ -35,6 +35,6 @@ struct StarsView: View {
         Image(systemName: starName)
             .resizable()
             .foregroundColor(color)
-            .frame(maxWidth: 18, maxHeight: 18)
+            .frame(width: 18, height: 18)
     }
 }

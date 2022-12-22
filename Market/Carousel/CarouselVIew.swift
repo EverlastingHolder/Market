@@ -61,76 +61,95 @@ struct CarouselView: View {
                 ProgressView()
                     .progressViewStyle(.circular)
             } else {
-                VStack(spacing: 0) {
-                    CarouselDetailView(links: viewModel.model!.links)
-                        .padding(.bottom, 14)
-                    
-                    VStack(alignment: .leading, spacing: 0) {
-                        HStack(alignment: .center) {
-                            Text(viewModel.model!.title)
-                                .customFont(fontSize: 24, fontWeight: .medium)
-                                .foregroundColor(.darkBlue)
-                            
-                            Spacer(minLength: 0)
-                            
-                            Image(viewModel.model!.isFavorites ? "FillHeart" : "Heart")
-                                .padding(10)
-                                .frame(minWidth: 11, minHeight: 11)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10)
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        CarouselDetailView(links: viewModel.model!.links)
+                            .padding(.bottom, 14)
+                        VStack {
+                            VStack(spacing: 0) {
+                                HStack(alignment: .center) {
+                                    Text(viewModel.model!.title)
+                                        .customFont(fontSize: 24, fontWeight: .medium)
                                         .foregroundColor(.darkBlue)
-                                )
-                                .onTapGesture {
-                                    viewModel.model?.isFavorites.toggle()
+                                    
+                                    Spacer(minLength: 0)
+                                    
+                                    Image(viewModel.model!.isFavorites ? "FillHeart" : "Heart")
+                                        .padding(10)
+                                        .frame(minWidth: 11, minHeight: 11)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .foregroundColor(.darkBlue)
+                                        )
+                                        .onTapGesture {
+                                            viewModel.model!.isFavorites.toggle()
+                                        }
+                                        .padding([.top, .trailing], 8)
+                                    
                                 }
-                                .padding([.top, .trailing], 8)
+                                HStack {
+                                    StarsView(rating: viewModel.model!.rating)
+                                    Spacer()
+                                }
+                            }
+                            .padding(.trailing, 38)
                             
-                        }
-                        .padding(.horizontal, 38)
-                        
-                        HStack {
-                            StarsView(rating: viewModel.model!.rating)
-                            Spacer()
-                        }
-                        .padding(.horizontal, 38)
-                        
-                        SegmentedControlView(selectedIndex: $selectedIndex, titles: titles)
-                            .padding(.horizontal, 30)
-                        
-                        HStack {
-                            ForEach(specifications.sorted(by: <), id: \.key) { (key, value) in
-                                Spacer()
+                            VStack {
+                                SegmentedControlView(selectedIndex: $selectedIndex, titles: titles)
+                                    .padding(.horizontal, 0)
+                            }
+                            
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    ForEach(specifications.sorted(by: <), id: \.key) { (key, value) in
+                                        Spacer()
+                                        VStack {
+                                            Image(key)
+                                            Text(value)
+                                                .foregroundColor(.subtitleText)
+                                                .customFont(fontSize: 11, fontWeight: .regular)
+                                        }
+                                        Spacer()
+                                    }
+                                }
+                                .padding(EdgeInsets(top: 25, leading: 0, bottom: 0, trailing: 40))
+                                
+                                VStack(alignment: .leading) {
+                                    Text("Select color and capacity")
+                                        .foregroundColor(.darkBlue)
+                                        .customFont(fontSize: 16, fontWeight: .medium)
+                                    
+                                    HStack(spacing: 30) {
+                                        selectedColorView(selectedColor: $selectedColor, colors: colors)
+                                        selectedMemoryButtonView(selectedButton: $selectedButton, item: capacity)
+                                    }
+                                    
+                                }
+                                .padding(.top, 20)
+                                
                                 VStack {
-                                    Image(key)
-                                    Text(value)
-                                        .foregroundColor(.subtitleText)
-                                        .customFont(fontSize: 11, fontWeight: .regular)
+                                    Button(action: {}) {
+                                        HStack {
+                                            Text("Add to Cart")
+                                            Spacer()
+                                            Text("$\(viewModel.model!.price)")
+                                        }
+                                        .customFont(fontSize: 20, fontWeight: .bold)
+                                        .foregroundColor(.white)
+                                        .padding(.horizontal, 40)
+                                        .padding(.vertical, 15)
+                                    }
+                                    .backgroundColor(.darkOrange)
+                                    .cornerRadius(10)
+                                    .padding([.top, .trailing], 30)
                                 }
-                                Spacer()
                             }
                         }
-                        .padding(EdgeInsets(top: 25, leading: 30, bottom: 0, trailing: 40))
-                        
-                        VStack(alignment: .leading) {
-                            Text("Select color and capacity")
-                                .foregroundColor(.darkBlue)
-                                .customFont(fontSize: 16, fontWeight: .medium)
-                            
-                            HStack {
-                                selectedColorView(selectedColor: $selectedColor, colors: colors)
-                                Spacer(minLength: 0)
-                                selectedMemoryButtonView(selectedButton: $selectedButton, item: capacity)
-                            }
-                            
-                        }
-                        .padding(EdgeInsets(top: 25, leading: 0, bottom: 0, trailing: 0))
-                        
+                        .padding(.leading, 30)
+                        .backgroundColor(.white)
+                        .cornerRadius(10)
                     }
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(.white)
-                    )
-                    Spacer()
+                    
                 }
             }
         }
@@ -151,7 +170,7 @@ struct CarouselView: View {
         selectedButton: Binding<SelectedButtonModel>,
         item: [SelectedButtonModel]
     ) -> some View {
-        HStack {
+        HStack(spacing: 20) {
             ForEach(item, id: \.self) { item in
                 Button(action: {
                     withAnimation {
@@ -185,7 +204,7 @@ struct CarouselView: View {
         selectedColor: Binding<SelectedColorModel>,
         colors: [SelectedColorModel]
     ) -> some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 12) {
             ForEach(colors, id: \.self) { item in
                 Circle()
                     .frame(maxWidth: 40)
@@ -197,7 +216,6 @@ struct CarouselView: View {
                         self.selectedColor.id = item.id
                     }
             }
-            Spacer()
         }
     }
     
