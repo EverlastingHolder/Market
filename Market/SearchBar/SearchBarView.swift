@@ -1,11 +1,10 @@
 import SwiftUI
 
 struct SearchBarView: View {
-    @Binding var text: String
-    @FocusState var focus: Bool
-    @State var isShow: Bool = false
-    @ObservedObject
-    var viewModel: MainViewModel
+    @Binding
+    var text: String
+    @FocusState
+    var focus: Bool
     
     var body: some View {
         HStack(spacing: 11) {
@@ -24,22 +23,13 @@ struct SearchBarView: View {
                 .padding(.leading, 32)
                 .focused($focus)
             
-            Button(action: {
-                isShow = true
-            }) {
+            Button(action: {}) {
                 Image("Qrcode")
                     .padding()
                     .frame(minWidth: 34, minHeight: 34)
                     .background(Color.darkOrange)
                     .clipShape(Circle())
             }
-            .sheet(isPresented: $isShow) {
-                FiltersView(isShow: $isShow, model: viewModel.mainModel)
-                    .presentationDetents([.medium])
-                    .padding(.leading, 44)
-                    .padding(.trailing, 20)
-            }
-            
         }
         .padding(.trailing, 37)
         .overlay(

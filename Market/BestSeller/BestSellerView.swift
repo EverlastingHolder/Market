@@ -19,8 +19,9 @@ struct BestSellerView: View {
                         .frame(height: 230)
                 } else {
                     ForEach(viewModel.mainModel.bestSeller, id: \.id) { item in
-                        BestCardView(model: item)
-                            
+                        NavigationLink(destination: CarouselView()) {
+                            BestCardView(model: item)
+                        }
                     }
                 }
             }

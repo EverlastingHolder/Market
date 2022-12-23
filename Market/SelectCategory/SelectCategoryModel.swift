@@ -1,6 +1,6 @@
 import Foundation
 
 struct SelectCategoryModel {
-    let id: Int
-    let name: String
+    var id: Int
+    var name: String
 }

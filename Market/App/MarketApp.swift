@@ -4,8 +4,7 @@ import SwiftUI
 struct MarketApp: App {
     var body: some Scene {
         WindowGroup {
-//            MainView()
-            CarouselView()
+            MainView()
         }
     }
 }

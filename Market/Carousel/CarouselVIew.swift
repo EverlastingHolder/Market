@@ -3,7 +3,7 @@ import Combine
 
 struct CarouselView: View {
     @StateObject
-    var viewModel: CarouselViewModel = .init()
+    private var viewModel: CarouselViewModel = .init()
     @State
     private var selectedIndex = 0
     @State
@@ -54,29 +54,31 @@ struct CarouselView: View {
     private var selectedColor: SelectedColorModel = .init(color: .darkBlue, id: 0)
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color.backgorund
                 .ignoresSafeArea()
             if viewModel.model == nil {
                 ProgressView()
                     .progressViewStyle(.circular)
             } else {
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        CarouselDetailView(links: viewModel.model!.links)
-                            .padding(.bottom, 14)
-                        VStack {
+                VStack(spacing: 0) {
+                    CarouselDetailView(links: viewModel.model!.links)
+                        .padding(.bottom, 14)
+                    
+                    VStack {
+                        ScrollView(showsIndicators: false) {
                             VStack(spacing: 0) {
                                 HStack(alignment: .center) {
                                     Text(viewModel.model!.title)
                                         .customFont(fontSize: 24, fontWeight: .medium)
                                         .foregroundColor(.darkBlue)
                                     
+                                    
                                     Spacer(minLength: 0)
                                     
                                     Image(viewModel.model!.isFavorites ? "FillHeart" : "Heart")
                                         .padding(10)
-                                        .frame(minWidth: 11, minHeight: 11)
+                                    
                                         .background(
                                             RoundedRectangle(cornerRadius: 10)
                                                 .foregroundColor(.darkBlue)
@@ -92,6 +94,7 @@ struct CarouselView: View {
                                     Spacer()
                                 }
                             }
+                            .padding(.top, 20)
                             .padding(.trailing, 38)
                             
                             VStack {
@@ -127,32 +130,36 @@ struct CarouselView: View {
                                 }
                                 .padding(.top, 20)
                                 
-                                VStack {
-                                    Button(action: {}) {
-                                        HStack {
-                                            Text("Add to Cart")
-                                            Spacer()
-                                            Text("$\(viewModel.model!.price)")
-                                        }
-                                        .customFont(fontSize: 20, fontWeight: .bold)
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 40)
-                                        .padding(.vertical, 15)
-                                    }
-                                    .backgroundColor(.darkOrange)
-                                    .cornerRadius(10)
-                                    .padding([.top, .trailing], 30)
-                                }
                             }
                         }
-                        .padding(.leading, 30)
-                        .backgroundColor(.white)
+                        Button(action: {
+                            
+                        }) {
+                            HStack {
+                                Text("Add to Cart")
+                                Spacer()
+                                Text("$\(viewModel.model!.price)")
+                            }
+                            .customFont(fontSize: 20, fontWeight: .bold)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 40)
+                            .padding(.vertical, 15)
+                        }
+                        .backgroundColor(.darkOrange)
                         .cornerRadius(10)
+                        .padding(.trailing, 30)
+                        .padding(.bottom, 30)
                     }
-                    
+                    .padding(.leading, 30)
+                    .backgroundColor(.white)
+                    .cornerRadius(10, corners: [.topLeft, .topRight])
+                    .shadow(color: Color(hex:"#4C5F8F1A")!, radius: 20, x: 0, y: -5)
+                    .ignoresSafeArea()
                 }
             }
         }
+        .customToolBar(titleText: "Product Details", imageName: "Bug")
+        .navigationBarBackButtonHidden(true)
     }
     
     private struct SelectedButtonModel: Hashable {
@@ -180,9 +187,9 @@ struct CarouselView: View {
                     Text(item.textButton)
                         .foregroundColor(
                             item.id == self.selectedButton.id ?
-                            .white
+                                .white
                             :
-                            .init(hex: "#8D8D8D")
+                                    .init(hex: "#8D8D8D")
                         )
                         .customFont(fontSize: 13, fontWeight: .bold)
                         .padding(.horizontal, 15)
@@ -190,9 +197,9 @@ struct CarouselView: View {
                 }
                 .backgroundColor(
                     item.id == self.selectedButton.id ?
-                    .darkOrange
+                        .darkOrange
                     :
-                    .clear
+                            .clear
                 )
                 .cornerRadius(10)
             }
@@ -207,7 +214,7 @@ struct CarouselView: View {
         HStack(spacing: 12) {
             ForEach(colors, id: \.self) { item in
                 Circle()
-                    .frame(maxWidth: 40)
+                    .frame(width: 40)
                     .overlay {
                         overlayView(item: item)
                     }

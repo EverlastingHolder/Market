@@ -9,20 +9,24 @@ struct BestCardView: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(alignment: .leading) {
-                AsyncImage(url: model.link) { image in
-                    image
-                        .resizable()
-                        .frame(maxHeight: 170)
-                        .cornerRadius(10)
-                    
-                } placeholder: {
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(height: 170)
-                        .foregroundColor(.chevron)
+                AsyncImage(url: model.link) { phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .frame(maxHeight: 170)
+                            .cornerRadius(10)
+                    } else if phase.error != nil {
+                        Text("Error")
+                            
+                    } else {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(height: 170)
+                            .foregroundColor(.chevron)
+                    }
                 }
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("\(model.discountPrice)")
+                        Text("$\(model.discountPrice)")
                             .customFont(fontSize: 16, fontWeight: .bold)
                             .foregroundColor(.darkBlue)
                         

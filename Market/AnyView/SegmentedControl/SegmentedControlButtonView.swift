@@ -33,6 +33,7 @@ struct SegmentedControlButtonView: View {
                 }) {
                     HStack {
                         Text(titles[index])
+                            .foregroundColor(selectedIndex == index ? .darkBlue : .black.opacity(0.5))
                     }
                 }
                 .buttonStyle(CustomSegmentButtonStyle())

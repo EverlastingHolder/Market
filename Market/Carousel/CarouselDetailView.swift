@@ -16,15 +16,17 @@ struct CarouselDetailView: View {
                         image
                             .resizable()
                             .cornerRadius(10)
-                            .frame(width: 200, height: 305)
+                            .frame(maxWidth: 260, maxHeight: 290)
                             .background(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .frame(width: 260, height: 305)
+                                    .frame(maxWidth: 260, maxHeight: 290)
                                     .foregroundColor(.white)
+                                    .shadow(color: Color(hex:"#4C5F8F1A")!, radius: 5, x: 0, y: -5)
                             )
+                            
                     } placeholder: {
                         RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 260, height: 305)
+                            .frame(maxWidth: 260, maxHeight: 290)
                             .foregroundColor(.chevron)
                     }
                 }

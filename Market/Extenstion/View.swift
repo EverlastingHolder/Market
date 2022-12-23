@@ -12,6 +12,14 @@ extension View {
     func systemFont(fontSize: CGFloat, fontWeight: Font.Weight = .bold, color: Color = .white) -> some View {
         modifier(SystemFontModifier(fontSize: fontSize, fontWeight: fontWeight, color: color))
     }
+    
+    func customToolBar(titleText: String = "", imageName: String, trailingButtonText: String = "") -> some View {
+        modifier(CustomToolBarModifier(titleText: titleText, imageName: imageName, trailingButtonText: trailingButtonText))
+    }
+    
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
 }
 
 extension TextField {
